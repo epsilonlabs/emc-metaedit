@@ -17,7 +17,7 @@ public class MetaEditModelConfigurationDialog extends AbstractModelConfiguration
 	
 	@Override
 	protected String getModelName() {
-		return "MetaEdit+ model";
+		return "MetaEdit+ Model";
 	}
 
 	@Override
