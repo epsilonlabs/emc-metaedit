@@ -1,6 +1,6 @@
 # Epsilon - MetaEdit+ Integration
 
-Eclipse plugins that extend Epsilon's Model Connectivity (EMC) layer with support for managing MetaEdit+ models using languages of the [Epsilon platform](http://www.eclipse.org/epsilon) to perform activities such as code generation, model validation and model-to-model transformation. The MetaEdit+ EMC driver only supports querying models at this stage.
+Eclipse plugins that extend Epsilon's Model Connectivity (EMC) layer with support for managing [MetaEdit+](http://www.metacase.com/) models using languages of the [Epsilon platform](http://www.eclipse.org/epsilon) to perform activities such as code generation, model validation and model-to-model transformation. The MetaEdit+ EMC driver only supports querying models at this stage.
 
 Example
 -----------
