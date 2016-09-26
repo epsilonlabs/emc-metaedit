@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
 
 
@@ -51,9 +52,9 @@ public class MetaEditModel extends Model {
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath)
+	public void load(StringProperties properties, IRelativePathResolver resolver)
 			throws EolModelLoadingException {
-		super.load(properties, basePath);
+		super.load(properties, resolver);
 		this.graphName = properties.getProperty(PROPERTY_GRAPH_NAME);
 		this.graphTypeName = properties.getProperty(PROPERTY_GRAPH_TYPE_NAME);
 		load();
