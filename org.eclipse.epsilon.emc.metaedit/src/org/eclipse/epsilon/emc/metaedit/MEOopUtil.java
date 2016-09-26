@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.eclipse.epsilon.emc.metaedit.api.MEAny;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
-import org.eclipse.epsilon.emc.metaedit.api.METype;
 import org.eclipse.epsilon.emc.metaedit.api.MetaEditAPIPortType;
 
 
@@ -31,38 +30,34 @@ public class MEOopUtil {
 			if (property.equals(port.typeName(port.type(p)))) {
 				MEAny value = port.valueAt(o, properties.indexOf(p)+1);
 				
-				String valueType = value.getMeType();
+				String meType = value.getMeType();
+				String meValue = value.getMeValue();
 				
-				if (valueType.equalsIgnoreCase("OrderedCollection")) {
+				if (meType.equalsIgnoreCase("OrderedCollection")) {
 					ArrayList<MEOop> result = new ArrayList<MEOop>();
-					for (String v : value.getMeValue().split(" ")) {
+					for (String v : meValue.split(" ")) {
 						if (v.trim().length() > 0)
 						result.add(createMEOop(v));
 					}
 					return result;
 				}
-				else if (valueType.equals("Boolean")){
-					return Boolean.parseBoolean(value.getMeValue());
+				else if (meType.equals("Boolean")){
+					return Boolean.parseBoolean(meValue);
 				}
-				else if (valueType.equals("String")) {
-					return value.getMeValue().substring(1, value.getMeValue().length()-1);
+				else if (meType.equals("String") || meType.equals("Text")) {
+					return meValue.substring(1, meValue.length()-1).replace("''", "'");
 				}
-				else if (valueType.equals("MEOop")) {
-					return createMEOop(value.getMeValue());
+				else if (meType.equals("MEOop")) {
+					return createMEOop(meValue);
 				}
-				else if (valueType.equals("Integer")) {
-					return Integer.parseInt(value.getMeValue());
+				else if (meType.equals("Integer")) {
+					return Integer.parseInt(meValue);
 				}
-				else {
-					System.err.println(valueType);
+				else if (meType.equals("Number")) {
+					return Float.parseFloat(meValue);
 				}
-				//System.err.println(port.typeName(port.type(p)));
-				//System.err.println(value.getMeType()); // OrderedCollection
-				//System.err.println(value);
-				// Check out setValueAt for setting properties
-				return value.getMeValue(); //port.userPrintString(p);
-				// If type is not a primitive format is x_yyyy, need to create 
-				// an MEOop manually (in this case meType is MEOop)
+
+				return meValue;
 			}
 		}
 		return null;

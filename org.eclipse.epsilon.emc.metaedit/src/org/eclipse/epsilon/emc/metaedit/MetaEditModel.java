@@ -4,6 +4,7 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
@@ -27,6 +28,10 @@ public class MetaEditModel extends Model {
 
 	protected MEOop graph = null;
 	protected MetaEditAPIPortType port = null;
+	protected ArrayList<MEOop> objects = null;
+	protected ArrayList<MEOop> relationships = null;
+	protected HashSet<Integer> relationshipIds = null;
+	
 	protected String graphTypeName = "";
 	protected String graphName = "";
 	public static final String PROPERTY_GRAPH_NAME = "graphName";
@@ -88,9 +93,6 @@ public class MetaEditModel extends Model {
 		return null;
 	}
 	
-	protected ArrayList<MEOop> objects = null;
-	protected ArrayList<MEOop> relationships = null;
-	
 	@Override
 	public Collection<MEOop> allContents() {
 		
@@ -101,8 +103,10 @@ public class MetaEditModel extends Model {
 					objects.add(o);
 				}
 				relationships = new ArrayList<MEOop>();
+				relationshipIds = new HashSet<Integer>();
 				for (MEOop o : port.relationshipSet(graph)) {
 					relationships.add(o);
+					relationshipIds.add(o.getObjectID());
 				}
 			}
 		}
@@ -220,7 +224,7 @@ public class MetaEditModel extends Model {
 			METype returnedType = port.subTypeNamed(objectType, type);
 			if (objectType.getName().equals(returnedType.getName())) {
 				METype relationshipType = new METype("Relationship");
-				returnedType = port.subTypeNamed(objectType, type);
+				returnedType = port.subTypeNamed(relationshipType, type);
 				return !relationshipType.getName().equals(returnedType.getName());
 			}
 			else {
@@ -244,25 +248,17 @@ public class MetaEditModel extends Model {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public boolean isObject(MEOop o) {
-		for (MEOop candidate : objects) {
-			if (candidate.getAreaID() == o.getAreaID() && 
-					candidate.getObjectID() == o.getObjectID()) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	public boolean isRelationship(MEOop b) {
+		return relationshipIds.contains(b.getObjectID());
+		/*
 		for (MEOop candidate : relationships) {
 			if (candidate.getAreaID() == b.getAreaID() && 
 					candidate.getObjectID() == b.getObjectID()) {
 				return true;
 			}
 		}
-		return false;
+		return false;*/
 	}
 	
 	protected MetaEditPropertyGetter propertyGetter = new MetaEditPropertyGetter();
