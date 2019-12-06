@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
 import org.eclipse.epsilon.emc.metaedit.api.METype;
@@ -21,8 +20,6 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
-
-
 
 public class MetaEditModel extends Model {
 
@@ -67,7 +64,6 @@ public class MetaEditModel extends Model {
 	
 	@Override
 	public void load() throws EolModelLoadingException {
-
 		try {
 			MetaEditAPI meServer = new org.eclipse.epsilon.emc.metaedit.api.MetaEditAPILocator();
 			port = meServer.getMetaEditAPIPort();
@@ -83,9 +79,15 @@ public class MetaEditModel extends Model {
 		}
 		
 		allContents();
-		
 	}
 
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return graph != null && objects != null;
+	}
+	
 	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
@@ -98,13 +100,16 @@ public class MetaEditModel extends Model {
 		
 		try {
 			if (objects == null) {
-				objects = new ArrayList<MEOop>();
-				for (MEOop o : port.objectSet(graph)) {
+				MEOop[] portOps = port.objectSet(graph);
+				objects = new ArrayList<>(portOps.length);
+				for (MEOop o : portOps) {
 					objects.add(o);
 				}
-				relationships = new ArrayList<MEOop>();
-				relationshipIds = new HashSet<Integer>();
-				for (MEOop o : port.relationshipSet(graph)) {
+				MEOop[] relOps = port.relationshipSet(graph);
+				relationships = new ArrayList<>(relOps.length);
+				relationshipIds = new HashSet<>(relOps.length);
+				
+				for (MEOop o : relOps) {
 					relationships.add(o);
 					relationshipIds.add(o.getObjectID());
 				}
@@ -126,7 +131,7 @@ public class MetaEditModel extends Model {
 	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 	
-		ArrayList<MEOop> allOfKind = new ArrayList<MEOop>();
+		ArrayList<MEOop> allOfKind = new ArrayList<>();
 		
 		try {
 			for (MEOop o : objects) {
