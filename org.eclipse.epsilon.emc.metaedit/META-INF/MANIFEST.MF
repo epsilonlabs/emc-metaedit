@@ -9,5 +9,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.metaedit.dependencies
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.metaedit
+Automatic-Module-Name: org.eclipse.epsilon.emc.metaedit

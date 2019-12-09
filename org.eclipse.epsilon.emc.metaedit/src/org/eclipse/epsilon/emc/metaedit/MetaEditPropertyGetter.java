@@ -3,16 +3,12 @@ package org.eclipse.epsilon.emc.metaedit;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import org.eclipse.epsilon.emc.metaedit.api.MEAny;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
 import org.eclipse.epsilon.emc.metaedit.api.METype;
 import org.eclipse.epsilon.emc.metaedit.api.MetaEditAPIPortType;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
-
-
 
 public class MetaEditPropertyGetter extends AbstractPropertyGetter {
 
@@ -41,7 +37,7 @@ public class MetaEditPropertyGetter extends AbstractPropertyGetter {
 				METype roleType = new METype(property);
 				MEOop[] roles = port.rolesForObj(model.graph, np, roleType);
 				if (roles.length > 0) {
-					ArrayList<MEOop> relationships = new ArrayList<MEOop>();
+					ArrayList<MEOop> relationships = new ArrayList<>(roles.length);
 					for (MEOop role : roles) {
 						relationships.add(port.relsForRole(model.graph, role, new METype("NonProperty"))[0]);
 					}
