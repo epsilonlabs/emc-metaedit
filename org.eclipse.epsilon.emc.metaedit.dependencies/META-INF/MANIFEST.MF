@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.apache.xml.resolver;bundle-version="1.2.0",
  org.apache.xml.serializer;bundle-version="2.7.1",
  org.apache.commons.logging;bundle-version="1.0.4"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Classpath: .,
  lib/axis.jar,
  lib/commons-discovery-0.2.jar,
@@ -107,3 +107,4 @@ Export-Package: com.ibm.wsdl,
  org.apache.commons.discovery.resource.classes,
  org.apache.commons.discovery.resource.names,
  org.apache.commons.discovery.tools
+Automatic-Module-Name: org.eclipse.epsilon.emc.metaedit.dependencies
