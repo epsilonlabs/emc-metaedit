@@ -17,7 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
 
@@ -35,7 +34,6 @@ public class MetaEditModel extends Model {
 	public static final String PROPERTY_GRAPH_TYPE_NAME = "graphType";
 	
 	public static void main(String[] args) throws Exception {
-
 		MetaEditModel m = new MetaEditModel();
 		m.setName("F");
 		m.setGraphTypeName("Class Diagram [UML]");
@@ -51,6 +49,11 @@ public class MetaEditModel extends Model {
 		module.getContext().getPrettyPrinterManager().addPrettyPrinter(new MetaEditPrettyPrinter(m.port));
 		module.getContext().getModelRepository().addModel(m);
 		module.execute();
+	}
+	
+	public MetaEditModel() {
+		propertyGetter = new MetaEditPropertyGetter();
+		propertySetter = new MetaEditPropertySetter();
 	}
 	
 	@Override
@@ -265,21 +268,13 @@ public class MetaEditModel extends Model {
 		}
 		return false;*/
 	}
-	
-	protected MetaEditPropertyGetter propertyGetter = new MetaEditPropertyGetter();
 
 	@Override
 	public IPropertyGetter getPropertyGetter() {
-		propertyGetter.setModel(this);
-		propertyGetter.setPort(port);
-		return propertyGetter;
-	}
-
-	protected IPropertySetter propertySetter = new MetaEditPropertySetter();
-
-	@Override
-	public IPropertySetter getPropertySetter() {
-		return propertySetter;
+		MetaEditPropertyGetter pg = (MetaEditPropertyGetter) propertyGetter;
+		pg.setModel(this);
+		pg.setPort(port);
+		return pg;
 	}
 	
 	public String getGraphTypeName() {
