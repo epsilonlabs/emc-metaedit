@@ -7,8 +7,6 @@ import org.eclipse.epsilon.emc.metaedit.api.MEAny;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
 import org.eclipse.epsilon.emc.metaedit.api.MetaEditAPIPortType;
 
-
-
 public class MEOopUtil {
 	
 	public static MEOop createMEOop(String s) {
@@ -20,7 +18,7 @@ public class MEOopUtil {
 	}
 	
 	public static Object getPropertyValue(MEOop o, String property, MetaEditAPIPortType port) throws RemoteException {
-		ArrayList<MEOop> properties = new ArrayList<MEOop>();
+		ArrayList<MEOop> properties = new ArrayList<>();
 		
 		for (MEOop p : port.allProperties(o)) {
 			properties.add(p);
@@ -34,7 +32,7 @@ public class MEOopUtil {
 				String meValue = value.getMeValue();
 				
 				if (meType.equalsIgnoreCase("OrderedCollection")) {
-					ArrayList<MEOop> result = new ArrayList<MEOop>();
+					ArrayList<MEOop> result = new ArrayList<>();
 					for (String v : meValue.split(" ")) {
 						if (v.trim().length() > 0)
 						result.add(createMEOop(v));
