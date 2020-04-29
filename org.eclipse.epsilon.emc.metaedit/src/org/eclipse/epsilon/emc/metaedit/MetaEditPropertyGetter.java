@@ -3,7 +3,6 @@ package org.eclipse.epsilon.emc.metaedit;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.metaedit.api.MEOop;
 import org.eclipse.epsilon.emc.metaedit.api.METype;
 import org.eclipse.epsilon.emc.metaedit.api.MetaEditAPIPortType;
@@ -18,7 +17,7 @@ public class MetaEditPropertyGetter extends AbstractPropertyGetter {
 	protected MetaEditModel model = null;
 	
 	@Override
-	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		
 		try {
 			MEOop np = (MEOop) object;
